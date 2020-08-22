@@ -19,19 +19,25 @@ const cb = err => {
     }
     console.log('successful')
 }
-mongoose.connect(URL, options, cb)
-// mongoose.connect(
-//     'mongodb://localhost:27017/test', 
-//     {
-//         useNewUrlParser: true, 
-//         useUnifiedTopology: true,
-//     }, 
-//     err => {
-//         if(err){
-//             console.log(err)
-//             return
-//         }
-//         console.log('successful')
-//     }
-// )
+const db = mongoose.createConnection(URL, options, cb)
 
+const model = db.model('user', {
+    userName: {
+        type: String,
+        default: '',
+    }
+})
+
+const createModel = postData => {
+    const insertObj = new model(postData)
+    return insertObj.save().then(res => {
+        return res
+    }).catch(err => {
+        console.log(`fail ${err}`)
+        return false
+    })
+}
+
+module.exports = {
+    createModel
+}

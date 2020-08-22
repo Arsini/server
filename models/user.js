@@ -1,36 +1,13 @@
-/**
- * root: admin/3323221lzc
- * master: ethanol/3323221lzc
- */
-// mongod --auth --dbpath /usr/local/mongodb/data/db --logpath /usr/local/mongodb/log/mongodb.log --fork
-const mongoose = require('mongoose')
-const URL = 'mongodb://localhost:27017/master'
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: 'master',
-    user: 'ethanol',
-    pass: '3323221lzc',
-}
-const cb = err => {
-    if(err){
-        console.log(err)
-        return
-    }
-    console.log('successful')
-}
-const db = mongoose.createConnection(URL, options, cb)
-
-const model = db.model('user', {
+const userModel = appG.db.model('user', {
     userName: {
         type: String,
         default: '',
     }
 })
 
-const createModel = postData => {
-    const insertObj = new model(postData)
-    return insertObj.save().then(res => {
+const createUser = postData => {
+    const insertUser = new userModel(postData)
+    return insertUser.save().then(res => {
         return res
     }).catch(err => {
         console.log(`fail ${err}`)
@@ -38,6 +15,26 @@ const createModel = postData => {
     })
 }
 
+const getUser = data => {
+    return userModel.find(data).then(res => {
+        return res
+    }).catch(err => {
+        console.log(err)
+        return false
+    })
+}
+
+const removeUser = data => {
+    return userModel.remove(data).then(res => {
+        return res
+    }).catch(err => {
+        console.log(err)
+        return false
+    })
+}
+
 module.exports = {
-    createModel
+    createUser,
+    getUser,
+    removeUser,
 }

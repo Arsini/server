@@ -1,15 +1,14 @@
-const { createModel } = require(`${appG.RP}/models/user`)
+const { createUser, getUser, removeUser } = require(`${appG.RP}/models/user`)
 const create = async (req, res) => {
-    const data = req.body
-    console.log(data)
-    const rs = createModel(data)
-    if(rs) {
+    const reqData = req.body
+    const data = await createUser(reqData)
+    if(data) {
         res.send({
             meta:  {
                 state: 200,
                 msg: 'success'
             },
-            data: null
+            data: {}
         })
     } else {
         res.send({
@@ -17,11 +16,59 @@ const create = async (req, res) => {
                 state: 500,
                 msg: 'fail',
             },
-            data: null
+            data: {}
+        })
+    }
+}
+
+const get = async (req, res) => {
+    const reqData = req.query
+    const data = await getUser(reqData)
+    if(data) {
+        res.send({
+            meta:  {
+                state: 200,
+                msg: 'success'
+            },
+            data: {
+                list: data
+            }
+        })
+    } else {
+        res.send({
+            meta: {
+                state: 500,
+                msg: 'fail',
+            },
+            data: {}
+        })
+    }
+}
+
+const remove = async (req, res) => {
+    const reqData = req.query
+    const data = await removeUser(reqData)
+    if(data) {
+        res.send({
+            meta:  {
+                state: 200,
+                msg: 'success'
+            },
+            data: {}
+        })
+    } else {
+        res.send({
+            meta: {
+                state: 500,
+                msg: 'fail',
+            },
+            data: {}
         })
     }
 }
 
 module.exports = {
     create,
+    get,
+    remove,
 }

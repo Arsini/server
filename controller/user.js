@@ -1,4 +1,4 @@
-const { createUser, getUser, removeUser } = require(`${appG.RP}/models/user`)
+const { createUser, getUser, removeUser, updataUser } = require(`${appG.RP}/models/user`)
 const create = async (req, res) => {
     const reqData = req.body
     const data = await createUser(reqData)
@@ -67,8 +67,31 @@ const remove = async (req, res) => {
     }
 }
 
+const updata = async (req, res) => {
+    const reqData = req.body
+    const data = await updataUser(reqData)
+    if(data) {
+        res.send({
+            meta:  {
+                state: 200,
+                msg: 'success'
+            },
+            data: {}
+        })
+    } else {
+        res.send({
+            meta: {
+                state: 500,
+                msg: 'fail',
+            },
+            data: {}
+        })
+    }
+}
+
 module.exports = {
     create,
     get,
     remove,
+    updata,
 }

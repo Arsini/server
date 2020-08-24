@@ -2,6 +2,10 @@ const userModel = appG.db.model('user', {
     userName: {
         type: String,
         default: '',
+    },
+    password:{
+        type: 'Mixed',
+        default: 0,
     }
 })
 
@@ -25,7 +29,17 @@ const getUser = data => {
 }
 
 const removeUser = data => {
-    return userModel.remove(data).then(res => {
+    return userModel.deleteOne(data).then(res => {
+        return res
+    }).catch(err => {
+        console.log(err)
+        return false
+    })
+}
+
+const updataUser = data => {
+    const { _id } = data
+    return userModel.updateOne({ _id }, data).then(res => {
         return res
     }).catch(err => {
         console.log(err)
@@ -37,4 +51,5 @@ module.exports = {
     createUser,
     getUser,
     removeUser,
+    updataUser,
 }

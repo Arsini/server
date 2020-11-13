@@ -1,4 +1,5 @@
 # server
+node -v 12.19.0
 server code
 
 egg-project

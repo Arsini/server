@@ -13,4 +13,23 @@ utils.getIPAddress = () => {
     }
 }
 
+utils.resSend = (res, data={}) => {
+    res.send({
+        meta:  {
+            state: 200,
+            msg: 'success'
+        },
+        data,
+    })
+}
+
+utils.resSendErr = (res, code=400, msg) => {
+    res.status(code).send({
+        meta:  {
+            state: code,
+            msg,
+        },
+    })
+}
+
 module.exports = utils

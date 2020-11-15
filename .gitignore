@@ -1,6 +1,5 @@
 node_modules/
 uploads/*
-www/*
 *.rar
 npm-debug.log
 .idea/
